@@ -13,11 +13,8 @@ POST_TAX_INVESTMENTS=3000
 POST_TAX_APY = Decimal("0.1")
 POST_TAX_YEARS = 15
 
-fed_tax = tax.calculate_fed_tax(SALARY, PRE_TAX_INVESTMENTS)
-ss_tax = tax.calculate_ss_tax(SALARY)
-medicare_tax = tax.calculate_medicare_tax(SALARY)
-state_tax = tax.calculate_state_tax(SALARY, PRE_TAX_INVESTMENTS)
-total_tax = fed_tax + ss_tax + medicare_tax + state_tax
+taxes = tax.calculate_taxes(SALARY)
+(fed_tax, ss_tax, medicare_tax, state_tax, total_tax) = taxes.values()
 salary_after_tax = SALARY - total_tax
 salary_after_investments = salary_after_tax - PRE_TAX_INVESTMENTS - POST_TAX_INVESTMENTS
 

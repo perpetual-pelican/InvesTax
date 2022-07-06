@@ -5,14 +5,15 @@ from logger import log
 getcontext().rounding = ROUND_HALF_UP
 
 def salary_after_tax(salary, pre_tax_investments=0):
-  return salary - calculate_total_tax(salary, pre_tax_investments)
+  return salary - calculate_taxes(salary, pre_tax_investments).total
 
-def calculate_total_tax (salary, pre_tax_investments=0):
+def calculate_taxes (salary, pre_tax_investments=0):
   fed_tax = calculate_fed_tax(salary, pre_tax_investments)
   ss_tax = calculate_ss_tax(salary)
   medicare_tax = calculate_medicare_tax(salary)
   state_tax = calculate_state_tax(salary, pre_tax_investments)
-  return fed_tax + ss_tax + medicare_tax + state_tax
+  total = fed_tax + ss_tax + medicare_tax + state_tax
+  return { "federal": fed_tax, "social_security": ss_tax, "medicare": medicare_tax, "state": state_tax, "total": total }
 
 def calculate_fed_tax (salary, pre_tax_investments=0):
   taxable_income = calculate_taxable_income(salary, tax_constants.STANDARD_DEDUCTION, pre_tax_investments)
