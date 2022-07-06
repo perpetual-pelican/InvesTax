@@ -1,5 +1,8 @@
+from decimal import getcontext, ROUND_HALF_UP
 import tax_constants
 from logger import log
+
+getcontext().rounding = ROUND_HALF_UP
 
 def salary_after_tax(salary, pre_tax_investments=0):
   return salary - calculate_total_tax(salary, pre_tax_investments)
@@ -16,7 +19,8 @@ def calculate_fed_tax (salary, pre_tax_investments=0):
   total_tax = 0
   lower_limit = 0
 
-  log.debug("\nBase Salary: $%.2f, Federal Taxable Income: $%.2f", salary, taxable_income)
+  log.debug("\nBase Salary: $%.2f", salary)
+  log.debug("Federal Taxable Income: $%.2f", taxable_income)
   log.debug("Tax Brackets")
   
   for rate, upper_limit in tax_constants.TAX_BRACKETS.items():
@@ -35,18 +39,22 @@ def calculate_fed_tax (salary, pre_tax_investments=0):
     total_tax += bracket_tax
     lower_limit = upper_limit
   
-  return total_tax
+  return round(total_tax, 2)
 
 def calculate_ss_tax (salary):
-  return salary * tax_constants.SOCIAL_SECURITY_TAX_RATE
+  ss_tax = salary * tax_constants.SOCIAL_SECURITY_TAX_RATE
+  return round(ss_tax, 2)
 
 def calculate_medicare_tax (salary):
-  return salary * tax_constants.MEDICARE_TAX_RATE
+  medicare_tax = salary * tax_constants.MEDICARE_TAX_RATE
+  return round(medicare_tax, 2)
 
 def calculate_state_tax (salary, pre_tax_investments=0):
   taxable_income = calculate_taxable_income(salary, tax_constants.PERSONAL_EXEMPTION, pre_tax_investments)
-  log.debug("\nBase Salary: $%.2f, State Taxable Income: $%.2f", salary, taxable_income)
-  return taxable_income * tax_constants.IL_TAX_RATE
+  log.debug("\nBase Salary: $%.2f", salary)
+  log.debug("State Taxable Income: $%.2f", taxable_income)
+  state_tax = taxable_income * tax_constants.IL_TAX_RATE
+  return round(state_tax, 2)
 
 def calculate_taxable_income (salary, deductions, pre_tax_investments=0):
   return salary - deductions - pre_tax_investments

@@ -1,4 +1,5 @@
 from logger import log
+from decimal import Decimal
 import tax_calculator as tax
 import investment_calculator as invest
 
@@ -6,10 +7,10 @@ log.setLevel("INFO")
 
 SALARY = 100000
 PRE_TAX_INVESTMENTS=5000
-PRE_TAX_APY = 0.05
+PRE_TAX_APY = Decimal("0.05")
 PRE_TAX_YEARS = 40
 POST_TAX_INVESTMENTS=3000
-POST_TAX_APY = 0.1
+POST_TAX_APY = Decimal("0.1")
 POST_TAX_YEARS = 15
 
 fed_tax = tax.calculate_fed_tax(SALARY, PRE_TAX_INVESTMENTS)
