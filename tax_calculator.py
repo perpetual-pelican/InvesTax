@@ -39,8 +39,8 @@ def calculate_fed_tax(salary, pre_tax_investments=0):
         log.debug("   Total Tax: $%.2f", total_tax)
         lower_limit = upper_limit
 
-    effective_tax_rate = total_tax / salary
-    log.debug("  Effective Tax Rate: $%.2f", effective_tax_rate)
+    effective_tax_rate = 100 * total_tax / salary
+    log.debug("  Effective Tax Rate: %.2f%%", effective_tax_rate)
 
     return round(total_tax, 2)
 
