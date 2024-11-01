@@ -1,8 +1,8 @@
 from flask import render_template
 from app import app
 from app.forms import TaxForm, InvestForm
-from tax.tax_calculator import calculate_taxes
-from invest.investment_calculator import calculate_cmpd_int
+from src.tax.tax_calculator import calculate_taxes
+from src.invest.investment_calculator import calculate_cmpd_int
 
 
 @app.route('/')

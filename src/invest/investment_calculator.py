@@ -1,4 +1,4 @@
-from logger import log
+from src.logger import log
 
 
 def calculate_cmpd_int(initial_investment, yearly_investment, apy, years):
