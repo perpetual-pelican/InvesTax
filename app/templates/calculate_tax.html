@@ -1,24 +1,26 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
+{% block content %}
 <h1>Calculate Income Tax</h1>
-<form action="" method="post" novalidate>
-  {{ form.hidden_tag() }}
-  <p>
-    {{ form.salary.label }}<br />
-    {{ form.salary(size=32) }} {% for error in form.salary.errors %}
-    <span style="color: red">[{{ error }}]</span>
-    {% endfor %}
-  </p>
-  <p>{{ form.submit() }}</p>
-</form>
 {% if salary and taxes %}
 <div>
-  <p>Base Salary: ${{ salary }}</p>
-  <p>Federal Income Tax: ${{ taxes.federal }}</p>
-  <p>State Income Tax: ${{ taxes.state }}</p>
-  <p>Medicare Tax: ${{ taxes.medicare }}</p>
-  <p>Social Security Tax: ${{ taxes.social_security }}</p>
-  <p>Total Income Tax: ${{ taxes.total }}</p>
-  <p>Total Effective Tax Rate: {{ taxes.effective_tax_rate }}%</p>
-  <p>Post-Tax Salary: ${{ salary - taxes.total }}</p>
+    <p>Base Salary: ${{ salary }}</p>
+    <p>Federal Income Tax: ${{ taxes.federal }}</p>
+    <p>State Income Tax: ${{ taxes.state }}</p>
+    <p>Medicare Tax: ${{ taxes.medicare }}</p>
+    <p>Social Security Tax: ${{ taxes.social_security }}</p>
+    <p>Total Income Tax: ${{ taxes.total }}</p>
+    <p>Total Effective Tax Rate: {{ taxes.effective_tax_rate }}%</p>
+    <p>Post-Tax Salary: ${{ salary - taxes.total }}</p>
 </div>
-{% endif %} {% endblock %}
+{% endif %}
+<form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.salary.label }}<br/>
+        {{ form.salary(size=32) }} {% for error in form.salary.errors %}
+        <span style="color: red">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>{{ form.submit() }}</p>
+</form>
+{% endblock %}
