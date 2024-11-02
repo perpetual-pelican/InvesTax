@@ -18,6 +18,7 @@
   <p>Medicare Tax: ${{ taxes.medicare }}</p>
   <p>Social Security Tax: ${{ taxes.social_security }}</p>
   <p>Total Income Tax: ${{ taxes.total }}</p>
+  <p>Total Effective Tax Rate: {{ taxes.effective_tax_rate }}%</p>
   <p>Post-Tax Salary: ${{ salary - taxes.total }}</p>
 </div>
 {% endif %} {% endblock %}

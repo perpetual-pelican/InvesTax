@@ -11,7 +11,15 @@ def calculate_taxes(salary, pre_tax_investments=0):
     medicare_tax = calculate_medicare_tax(salary)
     state_tax = calculate_state_tax(salary, pre_tax_investments)
     total = fed_tax + ss_tax + medicare_tax + state_tax
-    return {"federal": fed_tax, "social_security": ss_tax, "medicare": medicare_tax, "state": state_tax, "total": total}
+    effective_tax_rate = (total / salary) * 100
+    return {
+        "federal": fed_tax,
+        "social_security": ss_tax,
+        "medicare": medicare_tax,
+        "state": state_tax,
+        "total": total,
+        "effective_tax_rate": round(effective_tax_rate, 2)
+    }
 
 
 def calculate_fed_tax(salary, pre_tax_investments=0):
