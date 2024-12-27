@@ -1,0 +1,21 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #d8f9fa;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    color: #212529;
+}
+
+.form-input {
+    font-size: 1.2em;
+    color: #495057;
+}
+
+input:invalid {
+    border: 1.5px solid orange;
+}
+
+.validation-error {
+    color: orange;
+}

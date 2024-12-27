@@ -1,3 +1,99 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
+
+{% block content %}
+
 <h1>InvesTax</h1>
+
+<form action="{{ url_for('index') }}" method="post">
+    {{ invest_form.hidden_tag() }}
+    <div class="form-input">
+        {{ invest_form.initial_contribution.label }}<br/>
+        {{ invest_form.initial_contribution(size=18) }}
+        {% if invest_form.initial_contribution.errors %}
+            {% for error in invest_form.initial_contribution.errors %}<br/>
+                <span class="validation-error">[{{ error }}]</span>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="form-input">
+        {{ invest_form.yearly_contribution.label }}<br/>
+        {{ invest_form.yearly_contribution(size=18) }}
+        {% if invest_form.yearly_contribution.errors %}
+            {% for error in invest_form.yearly_contribution.errors %}<br/>
+                <span class="validation-error">[{{ error }}]</span>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="form-input">
+        {{ invest_form.years.label }}<br/>
+        {{ invest_form.years(size=18) }}
+        {% if invest_form.years.errors %}
+            {% for error in invest_form.years.errors %}<br/>
+                <span class="validation-error">[{{ error }}]</span>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="form-input">
+        {{ invest_form.apy.label }}<br/>
+        {{ invest_form.apy(size=18) }}
+        {% if invest_form.apy.errors %}
+            {% for error in invest_form.apy.errors %}<br/>
+                <span class="validation-error">[{{ error }}]</span>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div>{{ invest_form.submit_invest() }}</div>
+</form>
+
+{% if total %}
+<div>
+    {% if base64_invest_figure %}
+        <img src="data:image/png;base64, {{ base64_invest_figure }}" alt="Stack Graph"/>
+    {% endif %}
+    <div>Total Investment Value after {{ invest_form.years.data }} Years: ${{ total }}</div>
+    {% if effective_rate %}
+    <div>Effective Interest Rate: {{ effective_rate }}%</div>
+    {% endif %}
+</div>
+{% endif %}
+
+<form action="{{ url_for('index') }}" method="post">
+    {{ tax_form.hidden_tag() }}
+    <div class="form-input">
+        {{ tax_form.salary.label }}<br/>
+        {{ tax_form.salary(size=18) }}<br/>
+        {% if tax_form.salary.errors %}
+            {% for error in tax_form.salary.errors %}
+                <span class="validation-error">[{{ error }}]</span>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="form-input">
+        {{ tax_form.filing_status.label }}<br/>
+        {{ tax_form.filing_status }}<br/>
+        {% if tax_form.filing_status.errors %}
+            {% for error in tax_form.filing_status.errors %}
+                <span class="validation-error">[{{ error }}]</span>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div>{{ tax_form.submit_tax() }}</div>
+</form>
+
+{% if salary and taxes %}
+<div>
+    {% if base64_tax_figure %}
+        <img src="data:image/png;base64, {{ base64_tax_figure }}" alt="Pie Chart"/>
+    {% endif %}
+    <div>Base Salary: ${{ salary }}</div>
+    <div>Federal Income Tax: ${{ taxes.federal }}</div>
+    <div>State Income Tax: ${{ taxes.state }}</div>
+    <div>Medicare Tax: ${{ taxes.medicare }}</div>
+    <div>Social Security Tax: ${{ taxes.social_security }}</div>
+    <div>Total Income Tax: ${{ taxes.total }}</div>
+    <div>Effective Tax Rate: {{ taxes.effective_tax_rate }}%</div>
+    <div>Post-Tax Salary: ${{ taxes.post_tax_salary }}</div>
+</div>
+{% endif %}
+
 {% endblock %}

@@ -5,8 +5,8 @@ from src.tax.tax_constants import *
 getcontext().rounding = ROUND_HALF_UP
 
 
-def calculate_taxes(salary, pre_tax_investments=0):
-    fed_tax = calculate_fed_tax(salary, pre_tax_investments)
+def calculate_taxes(salary, pre_tax_investments=0, filing_status=FILING_STATUS_SINGLE):
+    fed_tax = calculate_fed_tax(salary, pre_tax_investments, filing_status)
     ss_tax = calculate_ss_tax(salary)
     medicare_tax = calculate_medicare_tax(salary)
     state_tax = calculate_state_tax(salary, pre_tax_investments)
@@ -18,12 +18,15 @@ def calculate_taxes(salary, pre_tax_investments=0):
         "medicare": medicare_tax,
         "state": state_tax,
         "total": total,
-        "effective_tax_rate": round(effective_tax_rate, 2)
+        "effective_tax_rate": round(effective_tax_rate, 1),
+        "post_tax_salary": salary - total
     }
 
 
-def calculate_fed_tax(salary, pre_tax_investments=0):
-    taxable_income = calculate_taxable_income(salary, STANDARD_DEDUCTION, pre_tax_investments)
+def calculate_fed_tax(salary, pre_tax_investments=0, filing_status=FILING_STATUS_SINGLE):
+    taxable_income = calculate_taxable_income(salary,
+                                              STANDARD_DEDUCTION_BY_YEAR[TAX_YEAR][filing_status],
+                                              pre_tax_investments)
     total_tax = 0
     lower_limit = 0
 
@@ -32,7 +35,7 @@ def calculate_fed_tax(salary, pre_tax_investments=0):
     log.debug("  Federal Taxable Income: $%.2f", taxable_income)
     log.debug("  Tax Brackets")
 
-    for rate, upper_limit in TAX_BRACKETS.items():
+    for rate, upper_limit in TAX_BRACKETS_BY_YEAR[TAX_YEAR].items():
         bracket_tax = 0
         if taxable_income > upper_limit:
             bracket_tax = rate * (upper_limit - lower_limit)
@@ -42,7 +45,7 @@ def calculate_fed_tax(salary, pre_tax_investments=0):
             break
 
         total_tax += bracket_tax
-        log.debug("  %d%%: $%d - $%d", rate * 100, lower_limit, upper_limit)
+        log.debug("  %d%%: $%d - $%s", rate * 100, lower_limit, str(upper_limit))
         log.debug("   Bracket Tax: $%.2f", bracket_tax)
         log.debug("   Total Tax: $%.2f", total_tax)
         lower_limit = upper_limit
@@ -54,17 +57,17 @@ def calculate_fed_tax(salary, pre_tax_investments=0):
 
 
 def calculate_ss_tax(salary):
-    ss_tax = salary * SOCIAL_SECURITY_TAX_RATE
+    ss_tax = salary * SOCIAL_SECURITY_TAX_RATE_BY_YEAR[TAX_YEAR]
     return round(ss_tax, 2)
 
 
 def calculate_medicare_tax(salary):
-    medicare_tax = salary * MEDICARE_TAX_RATE
+    medicare_tax = salary * MEDICARE_TAX_RATE_BY_YEAR[TAX_YEAR]
     return round(medicare_tax, 2)
 
 
 def calculate_state_tax(salary, pre_tax_investments=0):
-    taxable_income = calculate_taxable_income(salary, PERSONAL_EXEMPTION, pre_tax_investments)
+    taxable_income = calculate_taxable_income(salary, PERSONAL_EXEMPTION[TAX_YEAR], pre_tax_investments)
     log.debug("Calculating State Tax")
     log.debug("  Base Salary: $%.2f", salary)
     log.debug("  State Taxable Income: $%.2f", taxable_income)

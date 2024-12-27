@@ -1,41 +1,52 @@
 {% extends "base.html" %}
+
 {% block content %}
+
 <h1>Calculate Compound Interest</h1>
+
 <form action="" method="post" novalidate>
-    {{ form.hidden_tag() }}
-    <p>
-        {{ form.initial_contribution.label }}<br/>
-        {{ form.initial_contribution(size=32) }}
-        {% for error in form.initial_contribution.errors %}<br/>
-        <span style="color: red">[{{ error }}]</span>
+    {{ invest_form.hidden_tag() }}
+    <div class="form-input">
+        {{ invest_form.initial_contribution.label }}<br/>
+        {{ invest_form.initial_contribution(size=18) }}
+        {% for error in invest_form.initial_contribution.errors %}<br/>
+        <span class="validation-error">[{{ error }}]</span>
         {% endfor %}
-    </p>
-    <p>
-        {{ form.yearly_contribution.label }}<br/>
-        {{ form.yearly_contribution(size=32) }}
-        {% for error in form.yearly_contribution.errors %}<br/>
-        <span style="color: red">[{{ error }}]</span>
+    </div>
+    <div class="form-input">
+        {{ invest_form.yearly_contribution.label }}<br/>
+        {{ invest_form.yearly_contribution(size=18) }}
+        {% for error in invest_form.yearly_contribution.errors %}<br/>
+        <span class="validation-error">[{{ error }}]</span>
         {% endfor %}
-    </p>
-    <p>
-        {{ form.apy.label }}<br/>
-        {{ form.apy(size=32) }}
-        {% for error in form.apy.errors %}<br/>
-        <span style="color: red">[{{ error }}]</span>
+    </div>
+    <div class="form-input">
+        {{ invest_form.years.label }}<br/>
+        {{ invest_form.years(size=18) }}
+        {% for error in invest_form.years.errors %}<br/>
+        <span class="validation-error">[{{ error }}]</span>
         {% endfor %}
-    </p>
-    <p>
-        {{ form.years.label }}<br/>
-        {{ form.years(size=32) }}
-        {% for error in form.years.errors %}<br/>
-        <span style="color: red">[{{ error }}]</span>
+    </div>
+    <div class="form-input">
+        {{ invest_form.apy.label }}<br/>
+        {{ invest_form.apy(size=18) }}
+        {% for error in invest_form.apy.errors %}<br/>
+        <span class="validation-error">[{{ error }}]</span>
         {% endfor %}
-    </p>
-    <p>{{ form.submit() }}</p>
+    </div>
+    <div>{{ invest_form.submit_invest() }}</div>
 </form>
+
 {% if total %}
-<div>
-    <p>Total: ${{ total }}</p>
-</div>
+    <div>
+        {% if base64_figure %}
+            <img src="data:image/png;base64, {{ base64_figure }}" alt="Stack Graph"/>
+        {% endif %}
+        <div>Total: ${{ total }}</div>
+        {% if effective_rate %}
+            <div>Effective Interest Rate: {{ effective_rate }}%</div>
+        {% endif %}
+    </div>
 {% endif %}
+
 {% endblock %}
