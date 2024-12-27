@@ -20,10 +20,10 @@ def index():
     base64_tax_figure = None
 
     if invest_form.submit_invest.data and invest_form.validate_on_submit():
-        initial = invest_form.initial_contribution.data or 0
-        yearly = invest_form.yearly_contribution.data or 0
-        apy = invest_form.apy.data / 100 if invest_form.apy.data else 0
-        years = invest_form.years.data or 0
+        initial = invest_form.initial_contribution.data
+        yearly = invest_form.yearly_contribution.data
+        apy = invest_form.apy.data / 100
+        years = invest_form.years.data
         calc = InvestmentCalculator(initial, yearly, apy, years)
         totals, contributions, returns = calc.calculate_cmpd_int_list_yearly()
         total = round(totals[-1], 2)

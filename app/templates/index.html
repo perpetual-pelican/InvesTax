@@ -61,18 +61,18 @@
     {{ tax_form.hidden_tag() }}
     <div class="form-input">
         {{ tax_form.salary.label }}<br/>
-        {{ tax_form.salary(size=18) }}<br/>
+        {{ tax_form.salary(size=18) }}
         {% if tax_form.salary.errors %}
-            {% for error in tax_form.salary.errors %}
+            {% for error in tax_form.salary.errors %}<br/>
                 <span class="validation-error">[{{ error }}]</span>
             {% endfor %}
         {% endif %}
     </div>
     <div class="form-input">
         {{ tax_form.filing_status.label }}<br/>
-        {{ tax_form.filing_status }}<br/>
+        {{ tax_form.filing_status }}
         {% if tax_form.filing_status.errors %}
-            {% for error in tax_form.filing_status.errors %}
+            {% for error in tax_form.filing_status.errors %}<br/>
                 <span class="validation-error">[{{ error }}]</span>
             {% endfor %}
         {% endif %}
@@ -81,19 +81,19 @@
 </form>
 
 {% if salary and taxes %}
-<div>
-    {% if base64_tax_figure %}
-        <img src="data:image/png;base64, {{ base64_tax_figure }}" alt="Pie Chart"/>
-    {% endif %}
-    <div>Base Salary: ${{ salary }}</div>
-    <div>Federal Income Tax: ${{ taxes.federal }}</div>
-    <div>State Income Tax: ${{ taxes.state }}</div>
-    <div>Medicare Tax: ${{ taxes.medicare }}</div>
-    <div>Social Security Tax: ${{ taxes.social_security }}</div>
-    <div>Total Income Tax: ${{ taxes.total }}</div>
-    <div>Effective Tax Rate: {{ taxes.effective_tax_rate }}%</div>
-    <div>Post-Tax Salary: ${{ taxes.post_tax_salary }}</div>
-</div>
+    <div>
+        {% if base64_tax_figure %}
+            <img src="data:image/png;base64, {{ base64_tax_figure }}" alt="Pie Chart"/>
+        {% endif %}
+        <div>Base Salary: ${{ salary }}</div>
+        <div>Federal Income Tax: ${{ taxes.federal }}</div>
+        <div>State Income Tax: ${{ taxes.state }}</div>
+        <div>Medicare Tax: ${{ taxes.medicare }}</div>
+        <div>Social Security Tax: ${{ taxes.social_security }}</div>
+        <div>Total Income Tax: ${{ taxes.total }}</div>
+        <div>Effective Tax Rate: {{ taxes.effective_tax_rate }}%</div>
+        <div>Post-Tax Salary: ${{ taxes.post_tax_salary }}</div>
+    </div>
 {% endif %}
 
 {% endblock %}

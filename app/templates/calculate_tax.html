@@ -8,16 +8,16 @@
     {{ tax_form.hidden_tag() }}
     <div class="form-input">
         {{ tax_form.salary.label }}<br/>
-        {{ tax_form.salary(size=18) }}<br/>
-        {% for error in tax_form.salary.errors %}
-        <span class="validation-error">[{{ error }}]</span>
+        {{ tax_form.salary(size=18) }}
+        {% for error in tax_form.salary.errors %}<br/>
+            <span class="validation-error">[{{ error }}]</span>
         {% endfor %}
     </div>
     <div class="form-input">
         {{ tax_form.filing_status.label }}<br/>
-        {{ tax_form.filing_status }}<br/>
-        {% for error in tax_form.filing_status.errors %}
-        <span class="validation-error">[{{ error }}]</span>
+        {{ tax_form.filing_status }}
+        {% for error in tax_form.filing_status.errors %}<br/>
+            <span class="validation-error">[{{ error }}]</span>
         {% endfor %}
     </div>
     <div>{{ tax_form.submit_tax() }}</div>

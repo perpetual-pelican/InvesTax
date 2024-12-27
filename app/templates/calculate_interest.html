@@ -10,28 +10,28 @@
         {{ invest_form.initial_contribution.label }}<br/>
         {{ invest_form.initial_contribution(size=18) }}
         {% for error in invest_form.initial_contribution.errors %}<br/>
-        <span class="validation-error">[{{ error }}]</span>
+            <span class="validation-error">[{{ error }}]</span>
         {% endfor %}
     </div>
     <div class="form-input">
         {{ invest_form.yearly_contribution.label }}<br/>
         {{ invest_form.yearly_contribution(size=18) }}
         {% for error in invest_form.yearly_contribution.errors %}<br/>
-        <span class="validation-error">[{{ error }}]</span>
+            <span class="validation-error">[{{ error }}]</span>
         {% endfor %}
     </div>
     <div class="form-input">
         {{ invest_form.years.label }}<br/>
         {{ invest_form.years(size=18) }}
         {% for error in invest_form.years.errors %}<br/>
-        <span class="validation-error">[{{ error }}]</span>
+            <span class="validation-error">[{{ error }}]</span>
         {% endfor %}
     </div>
     <div class="form-input">
         {{ invest_form.apy.label }}<br/>
         {{ invest_form.apy(size=18) }}
         {% for error in invest_form.apy.errors %}<br/>
-        <span class="validation-error">[{{ error }}]</span>
+            <span class="validation-error">[{{ error }}]</span>
         {% endfor %}
     </div>
     <div>{{ invest_form.submit_invest() }}</div>

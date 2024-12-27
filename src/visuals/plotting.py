@@ -26,6 +26,7 @@ def plot_as_line_graph(num_years, totals=None, contributions=None):
     fig.savefig(bytes_io, format='png')
     bytes_io.seek(0)
     base64_data = base64.b64encode(bytes_io.read()).decode()
+    plt.close()
     return base64_data
 
 
@@ -45,6 +46,7 @@ def plot_as_stack_graph(num_years, contributions, returns):
     fig.savefig(bytes_io, format='png')
     bytes_io.seek(0)
     base64_data = base64.b64encode(bytes_io.read()).decode()
+    plt.close()
     return base64_data
 
 
@@ -60,4 +62,5 @@ def plot_as_pie_chart(base_salary, taxes):
     fig.savefig(bytes_io, format='png')
     bytes_io.seek(0)
     base64_data = base64.b64encode(bytes_io.read()).decode()
+    plt.close()
     return base64_data
